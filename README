@@ -1,0 +1,34 @@
+JSMin PHP Extension
+jsmin parses through javascript code and removes superfluous characters. When you pass a javascript string through the jsmin function, you get a minimized version that acts just like your properly formatted JavaScript without the newlines, unnecessary spaces, etc.
+
+There are a number of implementations of jsmin available, and most are based on Douglas Crockford's jsmin.c. This implmentation is no different.
+
+jsmin has been written in PHP and it has been available for quite some time now. However, with jsmin in PHP, you're trading bandwidth for CPU time. Parsing JavaScript with PHP is very CPU intensive. While this may be fine for a small site, large websites need something that performs much faster.
+
+This implementation take's Crockford's jsmin.c and creates a PHP extension. The JavaScript parsing and minimizing is done in C instead of PHP. Benchmarks against jsmin-php show that our implementation is at least 25 times faster!
+
+Installation
+
+Download the source, then run the following commands:
+    tar zxf php-jsmin-1.0.tgz
+    cd php-jsmin-1.0
+    phpize
+    sh ./configure
+    make
+    make install
+    (optional) in php.ini add the following line: extensions=jsmin.so
+    
+Once you have the extension installed, restart Apache (if you've modified your php.ini file). Now in PHP, you'll have a native function named "jsmin()" defined as:
+
+string jsmin  ( string $javascript  )
+Returns the minified version of the JavaScript code specified in javascript
+
+Example 1:
+
+This will read a JavaScript file from disk and output a minified version.
+<?php
+    header('Content-Type: application/x-javascript');
+    echo jsmin(file_get_contents('my.js'));
+?>
+    
+
